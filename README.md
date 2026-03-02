@@ -5,6 +5,8 @@ Fast robots.txt checker for the command line.
 ## Installation
 
 ```
+git clone https://github.com/butwhoistrace/robosnap
+cd robosnap
 pip install requests
 ```
 
@@ -50,3 +52,4 @@ python3 robosnap.py --bulk domains.txt --filter --export csv
 ## Disclaimer
 
 This tool only reads publicly accessible files. Use responsibly.
+
