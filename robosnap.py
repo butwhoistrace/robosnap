@@ -291,17 +291,52 @@ def fetch_robots(url, args):
     print()
 
 
+def parse_inline(raw):
+    parts = raw.split()
+    url = parts[0]
+    inline_args = argparse.Namespace(
+        url=url,
+        filter=False,
+        probe=False,
+        headers=False,
+        sitemap=False,
+        export=None,
+        bulk=None,
+        help=False
+    )
+    i = 1
+    while i < len(parts):
+        flag = parts[i]
+        if flag == "--filter":
+            inline_args.filter = True
+        elif flag == "--probe":
+            inline_args.probe = True
+        elif flag == "--headers":
+            inline_args.headers = True
+        elif flag == "--sitemap":
+            inline_args.sitemap = True
+        elif flag == "--export" and i + 1 < len(parts):
+            i += 1
+            if parts[i] in ("json", "csv"):
+                inline_args.export = parts[i]
+        i += 1
+    return url, inline_args
+
+
 def interactive_mode(args):
     print(f"\n  {DIM}Enter a URL or 'exit' to quit{RESET}")
-    flags = get_active_flags(args)
-    print(f"  {DIM}Active flags: {', '.join(flags) or 'none'}{RESET}")
+    print(f"  {DIM}Flags can be added inline: example.com --filter --probe{RESET}")
     while True:
         try:
-            url = input(f"\n  {CYAN}>{RESET} ").strip()
-            if url.lower() in ("exit", "quit", "q"):
+            raw = input(f"\n  {CYAN}>{RESET} ").strip()
+            if raw.lower() in ("exit", "quit", "q"):
                 break
-            if url:
-                fetch_robots(url, args)
+            if raw:
+                if " " in raw:
+                    url, inline_args = parse_inline(raw)
+                    fetch_robots(url, inline_args)
+                else:
+                    fetch_robots(raw, args)
         except (KeyboardInterrupt, EOFError):
             print()
             break
