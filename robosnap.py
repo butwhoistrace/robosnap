@@ -1,22 +1,3 @@
-#!/usr/bin/env python3
-"""
-RoboSnap - robots.txt Checker
-
-Usage:
-  python3 robosnap.py <url>                 Basic scan
-  python3 robosnap.py <url> --filter        Highlight interesting paths
-  python3 robosnap.py <url> --probe         Check status codes of found paths
-  python3 robosnap.py <url> --headers       Show HTTP response headers
-  python3 robosnap.py <url> --sitemap       Fetch referenced sitemaps
-  python3 robosnap.py <url> --export json   Export results as JSON
-  python3 robosnap.py <url> --export csv    Export results as CSV
-  python3 robosnap.py --bulk domains.txt    Scan multiple domains from file
-  python3 robosnap.py                       Interactive mode
-
-Flags can be combined:
-  python3 robosnap.py example.com --filter --probe --headers --sitemap --export json
-"""
-
 import sys
 import os
 import time
